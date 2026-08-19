@@ -5,44 +5,46 @@ import java.util.ArrayList;
 class Task {
     String id;
     String title;
-    boolean status;
+    boolean completed;
 
     public Task(String title) {
         UUID uuid = UUID.randomUUID();
         this.title = title;
         this.id = uuid.toString();
-        status = false;
+        completed = false;
     }
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Title: " + title + " | status: " + status;
+        return "ID: " + id + " | Title: " + title + " | status: " + completed;
     }
 }
 
-class Manager {
-    private ArrayList<Task> tasks = new ArrayList<Task>();
+class TasksCollection {
+    private ArrayList<Task> collectionOfTasks = new ArrayList<Task>();
 
     public void addTask(Task task) {
-        tasks.add(task);
+        collectionOfTasks.add(task);
     }
 
     public void showTasks() {
-        IO.println(tasks);
+        for (int i = 0; i < collectionOfTasks.size(); i++) {
+            IO.println(i);
+            IO.println(collectionOfTasks.get(i).id);
+            IO.println(collectionOfTasks.size());
+        }
+    }
+
+    public void completeTask(String id) {
+
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Manager manager = new Manager();
+        TasksCollection tasksCollection = new TasksCollection();
         boolean isRunning = true;
         Scanner scanner = new Scanner(System.in);
-        Task taskObj = new Task("Moje nowe zadanie");
-
-        IO.println("=== Pola obiektu taskObj ===");
-        IO.println("id: " + taskObj.id);
-        IO.println("title: " + taskObj.title);
-        IO.println("status: " + taskObj.status);
 
         while (isRunning) {
             IO.println("");
@@ -61,7 +63,7 @@ public class Main {
             switch (userInput) {
                 case 1:
                     IO.println("Showing tasks...");
-                    manager.showTasks();
+                    tasksCollection.showTasks();
                     break;
                 case 2:
                     IO.println();
@@ -71,7 +73,7 @@ public class Main {
                     IO.println("Adding tasks...");
 
                     Task task = new Task(title);
-                    manager.addTask(task);
+                    tasksCollection.addTask(task);
                     break;
                 case 3:
                     IO.println("Completed tasks...");
