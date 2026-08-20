@@ -1,6 +1,4 @@
-import java.util.Scanner;
-import java.util.UUID;
-import java.util.ArrayList;
+import java.util.*;
 
 class Task {
     String id;
@@ -11,12 +9,16 @@ class Task {
         UUID uuid = UUID.randomUUID();
         this.title = title;
         this.id = uuid.toString();
-        completed = false;
+        this.completed = false;
     }
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Title: " + title + " | status: " + completed;
+        return "Title: " + title + " | status: " + (completed ? "Completed" : "Not completed");
+    }
+
+    public void markAsCompleted() {
+        this.completed = true;
     }
 }
 
@@ -29,14 +31,17 @@ class TasksCollection {
 
     public void showTasks() {
         for (int i = 0; i < collectionOfTasks.size(); i++) {
-            IO.println(i);
-            IO.println(collectionOfTasks.get(i).id);
-            IO.println(collectionOfTasks.size());
+            int taskPosition = i + 1;
+            IO.println(taskPosition + ". " + collectionOfTasks.get(i));
         }
     }
 
-    public void completeTask(String id) {
+    public void completeTask(int index) {
+        collectionOfTasks.get(index).markAsCompleted();
+    }
 
+    public void deleteTask(int index) {
+        collectionOfTasks.remove(index);
     }
 }
 
@@ -77,9 +82,15 @@ public class Main {
                     break;
                 case 3:
                     IO.println("Completed tasks...");
+                    tasksCollection.showTasks();
+                    IO.print("Which one do you wanna mark as completed, enter the number of task: ");
+                    tasksCollection.completeTask(Integer.parseInt(scanner.nextLine()) - 1);
                     break;
                 case 4:
                     IO.println("Deleted tasks...");
+                    tasksCollection.showTasks();
+                    IO.print("Which one task do you wanna delete, enter the number of task: ");
+                    tasksCollection.deleteTask(Integer.parseInt(scanner.nextLine()) - 1);
                     break;
                 case 5:
                     IO.println("Closing app...");
