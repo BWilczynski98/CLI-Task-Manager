@@ -1,14 +1,11 @@
 import java.util.*;
 
 class Task {
-    String id;
-    String title;
-    boolean completed;
+    private String title;
+    private boolean completed;
 
     public Task(String title) {
-        UUID uuid = UUID.randomUUID();
         this.title = title;
-        this.id = uuid.toString();
         this.completed = false;
     }
 
@@ -22,32 +19,33 @@ class Task {
     }
 }
 
-class TasksCollection {
-    private ArrayList<Task> collectionOfTasks = new ArrayList<Task>();
+class TasksManager {
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
     public void addTask(Task task) {
-        collectionOfTasks.add(task);
+        tasks.add(task);
     }
 
     public void showTasks() {
-        for (int i = 0; i < collectionOfTasks.size(); i++) {
-            int taskPosition = i + 1;
-            IO.println(taskPosition + ". " + collectionOfTasks.get(i));
+        int index = 0;
+        for (Task task : tasks) {
+            index++;
+            IO.println(index + ": " + task);
         }
     }
 
     public void completeTask(int index) {
-        collectionOfTasks.get(index).markAsCompleted();
+        tasks.get(index).markAsCompleted();
     }
 
     public void deleteTask(int index) {
-        collectionOfTasks.remove(index);
+        tasks.remove(index);
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        TasksCollection tasksCollection = new TasksCollection();
+        TasksManager tasksManager = new TasksManager();
         boolean isRunning = true;
         Scanner scanner = new Scanner(System.in);
 
@@ -68,7 +66,7 @@ public class Main {
             switch (userInput) {
                 case 1:
                     IO.println("Showing tasks...");
-                    tasksCollection.showTasks();
+                    tasksManager.showTasks();
                     break;
                 case 2:
                     IO.println();
@@ -78,19 +76,19 @@ public class Main {
                     IO.println("Adding tasks...");
 
                     Task task = new Task(title);
-                    tasksCollection.addTask(task);
+                    tasksManager.addTask(task);
                     break;
                 case 3:
                     IO.println("Completed tasks...");
-                    tasksCollection.showTasks();
+                    tasksManager.showTasks();
                     IO.print("Which one do you wanna mark as completed, enter the number of task: ");
-                    tasksCollection.completeTask(Integer.parseInt(scanner.nextLine()) - 1);
+                    tasksManager.completeTask(Integer.parseInt(scanner.nextLine()) - 1);
                     break;
                 case 4:
                     IO.println("Deleted tasks...");
-                    tasksCollection.showTasks();
+                    tasksManager.showTasks();
                     IO.print("Which one task do you wanna delete, enter the number of task: ");
-                    tasksCollection.deleteTask(Integer.parseInt(scanner.nextLine()) - 1);
+                    tasksManager.deleteTask(Integer.parseInt(scanner.nextLine()) - 1);
                     break;
                 case 5:
                     IO.println("Closing app...");
