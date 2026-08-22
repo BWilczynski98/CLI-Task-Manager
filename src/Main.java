@@ -48,11 +48,13 @@ public class Main {
         TasksManager tasksManager = new TasksManager();
         boolean isRunning = true;
         Scanner scanner = new Scanner(System.in);
+        int userInput = 0;
+
+        IO.println("");
+        IO.println("=== Task Manager ===");
+        IO.println();
 
         while (isRunning) {
-            IO.println("");
-            IO.println("=== Task Manager ===");
-            IO.println();
             IO.println("1. Show tasks");
             IO.println("2. Add tasks");
             IO.println("3. Complete tasks");
@@ -61,7 +63,12 @@ public class Main {
             IO.println();
             IO.print("Choose option: ");
 
-            int userInput = Integer.parseInt(scanner.nextLine());
+            try {
+                userInput = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                IO.println("Wrong input, you wasn't enter a number. Try again.");
+                continue;
+            }
 
             switch (userInput) {
                 case 1:
@@ -71,12 +78,18 @@ public class Main {
                 case 2:
                     IO.println();
                     IO.print("Enter task: ");
+
                     String title = scanner.nextLine();
 
-                    IO.println("Adding tasks...");
+                    if (title.isEmpty()) {
+                        IO.println("Task title can't be empty");
+                        continue;
+                    }
 
+                    IO.println("Adding tasks...");
                     Task task = new Task(title);
                     tasksManager.addTask(task);
+
                     break;
                 case 3:
                     IO.println("Completed tasks...");
